@@ -39,7 +39,7 @@ describe('Basic Practice', () => {
     it('should hide items that do not match whatever is in the filter field', () => {
       const word = 'Tooth';
       cy.get('[data-test="filter-items"]').type(word);
-      // cy.get('[data-test="items-unpacked"]').should('have.length', 2); wrong but not sure why?
+      cy.get('[data-test="items-unpacked"] li').should('have.length', 2);
       cy.get('[data-test="items-unpacked"]')
         .should('not.contain', 'Deoderant')
         .should('not.contain', 'iPhone Charger');
@@ -65,6 +65,12 @@ describe('Basic Practice', () => {
       it('should remove an item from the page', () => {
         cy.contains('Deoderant').parent().contains('Remove').click();
         cy.contains('Deoderant').should('not.exist');
+
+        //another option by using jquery selector
+        cy.get('[data-test="items-unpacked"] li').each(($li) => {
+          cy.wrap($li).contains('Remove').click();
+          cy.wrap($li).should('not.exist');
+        });
       });
     });
   });
