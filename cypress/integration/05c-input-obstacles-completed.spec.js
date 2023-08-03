@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+//first download cypress-file-upload plugin
+import 'cypress-file-upload';
 
 describe('Input obstacles', () => {
   beforeEach(() => {
@@ -42,7 +44,7 @@ describe('Input obstacles', () => {
   });
 
   it('should find and control a file input', () => {
-    cy.get('[data-test="file-input"]');
-    cy.get('[data-test="file-result"]');
+    cy.get('[data-test="file-input"]').attachFile('myFile');
+    cy.get('[data-test="file-result"]').contains('myFile');
   });
 });
