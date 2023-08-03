@@ -47,7 +47,20 @@ describe('Testing Jetsetter with aliases', () => {
   describe('Mark individual item as packed', () => {
     it('should move an individual item from "Unpacked" to "Packed"', () => {
       cy.get('@unpackedItems').contains('Tooth Paste').click();
-      cy.get('@packedItems').contains('Tooth Paste').should('exist');
+      cy.get('@packedItems').first().contains('Tooth Paste').should('exist');
+    });
+  });
+
+  describe('Mark individual item as unpacked', () => {
+    it('should move any given item from "Packed" to "Unpacked"', () => {
+      cy.get('@packedItems').find('label').last().as('givenItem');
+      cy.get('@givenItem').invoke('text').as('itemName');
+
+      cy.get('@givenItem').click();
+
+      cy.get('@itemName').then((name) => {
+        cy.get('@unpackedItems').contains(name);
+      });
     });
   });
 });
