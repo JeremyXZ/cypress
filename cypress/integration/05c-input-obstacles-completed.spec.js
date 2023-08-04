@@ -1,6 +1,4 @@
 /// <reference types="cypress" />
-//first download cypress-file-upload plugin
-import 'cypress-file-upload';
 
 describe('Input obstacles', () => {
   beforeEach(() => {
