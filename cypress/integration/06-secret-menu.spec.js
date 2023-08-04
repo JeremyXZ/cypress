@@ -36,7 +36,53 @@ describe('Secret Menu Items', () => {
     cy.visit('/secret-menu');
   });
 
-  it('should exist have the title on the page', () => {
+  it('should have the title on the page', () => {
     cy.get('h1').should('contain', 'Secret Menu Items');
+  });
+
+  properties.forEach((property) => {
+    it(`should have a ${property} checkbox`, () => {
+      cy.get(`#show-${property}`).should('be.visible');
+    });
+
+    it(`should have a column for ${property}`, () => {
+      cy.get(`#${property}-column`).should('be.visible');
+    });
+
+    it(`should hide the ${property} column if it is unchecked`, () => {
+      cy.get(`#show-${property}`).click();
+      cy.get(`#${property}-column`).should('not.be.visible');
+    });
+  });
+});
+
+describe.only('Restaurant dropdown', () => {
+  beforeEach(() => {
+    cy.visit('/secret-menu');
+    cy.get('#restaurant-visibility-filter').as('restaurantFilter');
+  });
+
+  restaurants.forEach((restaurant) => {
+    it(`should only show ${restaurant} in the "Where to Order" column when it's selected from the Resturant dropdown menu`, () => {
+      cy.get('@restaurantFilter').select(restaurant);
+      cy.get('.whereToOrder').should('contain', restaurant).and('have.length.at.least', 1);
+    });
+  });
+});
+
+describe('Customers rating', () => {
+  beforeEach(() => {
+    cy.visit('/secret-menu');
+    cy.get('#minimum-rating-visibility').as('ratingFilter');
+  });
+
+  ratings.forEach((rating) => {
+    it(`should only show items with the pupularity above ${rating}`, () => {
+      cy.get('@ratingFilter').invoke('val', rating).trigger('input');
+      // cy.get('.popularity').should('contain', rating);
+      cy.get('td.popularity').each(($el) => {
+        expect(+$el.text).to.be.greaterThan(rating);
+      });
+    });
   });
 });
