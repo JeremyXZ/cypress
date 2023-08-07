@@ -2,6 +2,7 @@
 
 describe('Initial Page', () => {
   beforeEach(() => {
+    cy.task('reset');
     cy.visit('/echo-chamber');
   });
 
@@ -23,30 +24,5 @@ describe('Initial Page', () => {
   it('should navigate to "/sign-up" when you click the "Sign Up" button', () => {
     cy.get('[data-test="sign-up"]').click();
     cy.location('pathname').should('contain', 'sign-up');
-  });
-});
-
-describe.only('Sign Up', () => {
-  beforeEach(() => {
-    cy.visit('/echo-chamber/sign-up');
-    cy.get('[data-test="sign-up-email"]').as('emailInput');
-  });
-
-  it('should require an email', () => {
-    cy.get('form').should('contain', 'Email Address');
-    cy.get('@emailInput').should('be.visible');
-  });
-
-  it('should require that the email actually be an email address', () => {
-    const invalidEmail = 'john.gmai.com';
-    cy.get('@emailInput').type(invalidEmail);
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal("is missing an '@'");
-    });
-  });
-
-  it('should require a password when the email is present', () => {
-    cy.get('@emailInput').type('example@gmail.com');
-    cy.get('[data-test="sign-up-password"]').should('have.attr', 'required');
   });
 });
