@@ -40,7 +40,7 @@ describe('Sign up and then sign in', () => {
   });
 });
 
-//reseting the database will effectively remove the sign-up credentials, hence making the sign-with the orginal sign-up credentials failed
+//reseting the database will effectively remove the sign-up credentials created previously, so signing in with the orginal sign-up credentials failed
 
 describe('Sign In without first signing up', () => {
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('Sign In without first signing up', () => {
     cy.get('[data-test="sign-in-password"]').type(user.password);
     cy.get('[data-test="sign-in-submit"]').click();
 
-    //instead of loggoing into this page: '/echo-chamber/posts', remained on the sign-in page and failed to sign in
+    //instead of loggoing into this page: '/echo-chamber/posts', a user remained on the sign-in page and failed to sign in
     cy.location('pathname').should('contain', '/echo-chamber/sign-in');
     cy.contains('Signed in as ' + user.email).should('not.exist');
     cy.contains('No such user exists');
