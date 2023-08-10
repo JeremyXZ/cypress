@@ -34,6 +34,7 @@ describe('Dog Facts', () => {
       cy.wrap(interception.request.url).should('contain', 'amount=7');
       // expect(interception.request.url).to.match(/\?amount=4$/);
     });
+    //cy.wait('@api').its('request.url').contain('amount=4')
   });
 
   // cy.wait can be omitted since Cypress will have 4 seconds auto-wait by default (runing the query again and again until 4 seconds run out)
